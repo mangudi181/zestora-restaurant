@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: zestora-restaurant
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        value: zestora_super_secret_jwt_key_2026
+      - key: DATABASE_URL
+        fromDatabase:
+          name: zestora-db
+          property: connectionString
+
+databases:
+  - name: zestora-db
+    plan: free
+    databaseName: zestora_db
+    user: zestora
