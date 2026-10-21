@@ -15,12 +15,14 @@ dotenv.config();
 
 const pool = mysql.createPool({
   host: process.env.MYSQL_HOST || 'localhost',
+  port: process.env.MYSQL_PORT ? Number(process.env.MYSQL_PORT) : 3306,
   user: process.env.MYSQL_USER || 'root',
   password: process.env.MYSQL_PASSWORD || '',
   database: process.env.MYSQL_DATABASE || 'zestora_db',
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
+  ssl: process.env.MYSQL_HOST && process.env.MYSQL_HOST !== 'localhost' ? { rejectUnauthorized: false } : undefined
 });
 
 class Database {
@@ -28,8 +30,10 @@ class Database {
     // We connect without database selected first to create it if not exists
     const connection = await mysql.createConnection({
       host: process.env.MYSQL_HOST || 'localhost',
+      port: process.env.MYSQL_PORT ? Number(process.env.MYSQL_PORT) : 3306,
       user: process.env.MYSQL_USER || 'root',
       password: process.env.MYSQL_PASSWORD || '',
+      ssl: process.env.MYSQL_HOST && process.env.MYSQL_HOST !== 'localhost' ? { rejectUnauthorized: false } : undefined
     });
     
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${process.env.MYSQL_DATABASE || 'zestora_db'}\``);
