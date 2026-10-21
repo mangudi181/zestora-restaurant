@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
@@ -168,6 +170,30 @@ class Database {
           'INSERT INTO RestaurantTables (id, "tableNumber", capacity, status, location, x, y) VALUES ($1, $2, $3, $4, $5, $6, $7)',
           [t.id, t.tableNumber, t.capacity, t.status, t.location, t.x, t.y]
         );
+      }
+    }
+
+    await this.seedFoods();
+  }
+
+  private async seedFoods() {
+    const seedFile = path.join(process.cwd(), 'data', 'db.json');
+
+    let seedFoods: FoodItem[] = [];
+    try {
+      const seedData = JSON.parse(fs.readFileSync(seedFile, 'utf8')) as { foods?: FoodItem[] };
+      seedFoods = Array.isArray(seedData.foods) ? seedData.foods : [];
+    } catch (error) {
+      console.error(`Unable to load menu seed data from ${seedFile}`, error);
+      return;
+    }
+
+    const { rows } = await pool.query('SELECT id FROM Foods');
+    const existingIds = new Set(rows.map((row) => row.id));
+
+    for (const food of seedFoods) {
+      if (!existingIds.has(food.id)) {
+        await this.addFood(food);
       }
     }
   }
