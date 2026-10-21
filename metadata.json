@@ -1,0 +1,6 @@
+{
+  "name": "Zestora Restaurant",
+  "description": "A modern, responsive full-stack restaurant ordering and table reservation platform with customizable food, table floor plans, and admin dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
