@@ -80,7 +80,7 @@ export const FoodDetailModal: React.FC<FoodDetailModalProps> = ({
     });
   });
 
-  const unitPrice = food.price + additionalPrice;
+  const unitPrice = activeFood.price + additionalPrice;
   const totalPrice = unitPrice * quantity;
 
   const handleSingleSelect = (groupName: string, optionName: string, price: number) => {
