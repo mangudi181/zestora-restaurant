@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -16,7 +16,37 @@ import { MyReservationsView } from './components/MyReservationsView';
 import { AboutContactView } from './components/AboutContactView';
 import { AdminDashboard } from './components/AdminDashboard';
 import { MobileBottomNav } from './components/MobileBottomNav';
+import { AuthPage } from './components/AuthPage';
 import { FoodItem, Review, RestaurantTable, Order } from './types';
+
+/* ── Auth Gate ── */
+function AuthGate() {
+  const { user } = useAuth();
+  const [checking, setChecking] = useState(true);
+
+  // Give the AuthContext time to restore session from localStorage
+  useEffect(() => {
+    const timer = setTimeout(() => setChecking(false), 400);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (checking) {
+    return (
+      <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
+          <p className="text-stone-500 text-sm tracking-widest uppercase">Loading…</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <AuthPage />;
+  }
+
+  return <AppContent />;
+}
 
 export function AppContent() {
   const [currentView, setCurrentView] = useState<string>('home');
@@ -183,7 +213,7 @@ export default function App() {
   return (
     <AuthProvider>
       <CartProvider>
-        <AppContent />
+        <AuthGate />
       </CartProvider>
     </AuthProvider>
   );

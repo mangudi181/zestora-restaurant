@@ -151,6 +151,7 @@ export const FoodDetailModal: React.FC<FoodDetailModalProps> = ({
             <FoodImage
               src={activeFood.image}
               alt={activeFood.name}
+              priority={true}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917] via-[#1C1917]/25 to-transparent pointer-events-none" />

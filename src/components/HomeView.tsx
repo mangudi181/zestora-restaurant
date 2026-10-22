@@ -101,9 +101,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
         {/* Background hero food image with high contrast vignette overlay */}
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&auto=format&fit=crop&q=80"
+            src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&auto=format&fit=crop&q=75"
             alt="Zestora Luxury Restaurant"
             referrerPolicy="no-referrer"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
             className="w-full h-full object-cover opacity-30 filter brightness-90 scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#151311] via-[#151311]/70 to-transparent" />
@@ -196,6 +199,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                       <FoodImage
                         src={spotlightDish.image}
                         alt={spotlightDish.name}
+                        priority={true}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
@@ -533,6 +537,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   }
                   alt={rev.userName}
                   referrerPolicy="no-referrer"
+                  loading="lazy"
+                  decoding="async"
                   className="w-9 h-9 rounded-full object-cover border border-white/10"
                 />
                 <div>

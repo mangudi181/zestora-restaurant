@@ -229,7 +229,11 @@ export const MenuView: React.FC<MenuViewProps> = ({
                 }`}
               >
                 <div className="w-7 h-7 rounded-full overflow-hidden shrink-0 bg-stone-900 border border-white/10">
-                  <img src={CATEGORY_IMAGES[cat]} alt={cat} className="w-full h-full object-cover" />
+                  <FoodImage
+                    src={CATEGORY_IMAGES[cat]}
+                    alt={cat}
+                    className="w-full h-full"
+                  />
                 </div>
                 <span>{cat}</span>
               </button>
